@@ -1,0 +1,44 @@
+{
+  "name": "pentae-engine",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:init": "tsx src/server/db/init.ts",
+    "db:migration": "knex migrate:make --knexfile knexfile.cjs",
+    "db:up": "knex migrate:latest --knexfile knexfile.cjs",
+    "db:down": "knex migrate:rollback --knexfile knexfile.cjs",
+    "db:reset": "tsx src/server/db/reset.ts",
+    "db:seed": "tsx src/server/db/seed.ts",
+    "db:status": "tsx src/server/db/status.ts",
+    "db:test-conn": "tsx src/server/db/utils/testConnection.ts"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "knex": "^3.1.0",
+    "next": "^16.1.6",
+    "pg": "^8.18.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^25.2.3",
+    "@types/pg": "^8.16.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.4.24",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.2.4",
+    "eslint": "^9.39.2",
+    "postcss": "^8.5.6",
+    "prettier": "^3.8.1",
+    "tailwindcss": "^3.4.19",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
