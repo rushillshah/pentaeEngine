@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { SearchIcon, UserIcon, CartIcon, MenuIcon, CloseIcon } from "./icons";
+import { useState, useRef, useEffect } from "react";
+import { UserIcon, CartIcon, MenuIcon, CloseIcon } from "./icons";
 
 const links = [
   { label: "Home", href: "/" },
@@ -13,7 +13,19 @@ const links = [
 ];
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setUserOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
   return (
     <nav className="sticky top-0 z-50 bg-cream/80 backdrop-blur-md border-b border-tan">
@@ -39,27 +51,46 @@ export default function Navbar() {
 
         {/* Icons */}
         <div className="flex items-center gap-4">
-          <button aria-label="Search" className="text-charcoal hover:text-gold transition-colors">
-            <SearchIcon />
-          </button>
-          <button aria-label="Account" className="hidden md:block text-charcoal hover:text-gold transition-colors">
-            <UserIcon />
-          </button>
+          {/* User dropdown */}
+          <div ref={dropdownRef} className="relative">
+            <button
+              aria-label="Account"
+              className="text-charcoal hover:text-gold transition-colors"
+              onClick={() => setUserOpen(!userOpen)}
+            >
+              <UserIcon />
+            </button>
+            {userOpen && (
+              <div className="absolute right-0 mt-2 w-44 bg-white border border-tan rounded-lg shadow-lg py-1 z-50">
+                <a
+                  href="/account"
+                  className="block px-4 py-2.5 text-sm text-charcoal hover:bg-cream-dark transition-colors"
+                >
+                  Account Settings
+                </a>
+                <div className="border-t border-tan" />
+                <button className="w-full text-left px-4 py-2.5 text-sm text-warm-gray hover:bg-cream-dark transition-colors">
+                  Sign Out
+                </button>
+              </div>
+            )}
+          </div>
+
           <button aria-label="Cart" className="text-charcoal hover:text-gold transition-colors">
             <CartIcon />
           </button>
           <button
             aria-label="Menu"
             className="md:hidden text-charcoal"
-            onClick={() => setOpen(!open)}
+            onClick={() => setMenuOpen(!menuOpen)}
           >
-            {open ? <CloseIcon /> : <MenuIcon />}
+            {menuOpen ? <CloseIcon /> : <MenuIcon />}
           </button>
         </div>
       </div>
 
       {/* Mobile menu */}
-      {open && (
+      {menuOpen && (
         <div className="md:hidden border-t border-tan bg-cream px-6 pb-4">
           <ul className="flex flex-col gap-3 pt-3">
             {links.map((l) => (
@@ -72,6 +103,14 @@ export default function Navbar() {
                 </a>
               </li>
             ))}
+            <li>
+              <a
+                href="/account"
+                className="text-sm tracking-wide text-warm-gray hover:text-charcoal transition-colors"
+              >
+                Account Settings
+              </a>
+            </li>
           </ul>
         </div>
       )}
