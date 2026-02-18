@@ -10,6 +10,7 @@ async function reset() {
     await db.raw("DROP TABLE IF EXISTS knex_migrations CASCADE");
 
     // Drop application tables
+    await db.raw("DROP TABLE IF EXISTS products CASCADE");
     await db.raw("DROP TABLE IF EXISTS users CASCADE");
 
     // Drop custom enum types
