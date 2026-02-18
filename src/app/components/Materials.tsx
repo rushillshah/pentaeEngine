@@ -61,7 +61,7 @@ export default function Materials() {
               ))}
             </ul>
             <a
-              href="#"
+              href="/materials"
               className="inline-block mt-8 px-8 py-3 border border-charcoal text-charcoal text-sm tracking-wide rounded hover:bg-charcoal hover:text-white transition-colors"
             >
               Explore Materials

@@ -13,11 +13,11 @@ const columns = [
   {
     title: "Help",
     links: [
-      { label: "Sizing Guide", href: "#" },
-      { label: "Shipping & Returns", href: "#" },
-      { label: "Care Guide", href: "#" },
-      { label: "FAQ", href: "#" },
-      { label: "Contact Us", href: "#" },
+      { label: "Sizing Guide", href: "/help/sizing" },
+      { label: "Shipping & Returns", href: "/help/shipping" },
+      { label: "Care Guide", href: "/help/care" },
+      { label: "FAQ", href: "/help/faq" },
+      { label: "Contact Us", href: "/help/contact" },
     ],
   },
   {
@@ -25,9 +25,9 @@ const columns = [
     links: [
       { label: "Our Story", href: "/about" },
       { label: "Materials", href: "/materials" },
-      { label: "Sustainability", href: "#" },
-      { label: "Press", href: "#" },
-      { label: "Careers", href: "#" },
+      { label: "Sustainability", href: "/about" },
+      { label: "Press", href: "/about" },
+      { label: "Careers", href: "/about" },
     ],
   },
 ];
@@ -75,10 +75,10 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs">
           <span>&copy; {new Date().getFullYear()} Pentae. All rights reserved.</span>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition-colors">
+            <a href="/help/privacy" className="hover:text-white transition-colors">
               Privacy
             </a>
-            <a href="#" className="hover:text-white transition-colors">
+            <a href="/help/terms" className="hover:text-white transition-colors">
               Terms
             </a>
           </div>

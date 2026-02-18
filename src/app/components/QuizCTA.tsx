@@ -65,7 +65,7 @@ export default function QuizCTA() {
         </div>
 
         <a
-          href="#"
+          href="/quiz"
           className="inline-block px-10 py-3 bg-gold text-white text-sm tracking-wide rounded hover:bg-gold-light transition-colors"
         >
           Start Quiz

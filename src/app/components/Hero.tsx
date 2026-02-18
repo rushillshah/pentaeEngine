@@ -23,7 +23,7 @@ export default function Hero() {
               Shop Best Sellers
             </a>
             <a
-              href="#"
+              href="/quiz"
               className="inline-block px-8 py-3 border border-charcoal text-charcoal text-sm tracking-wide rounded hover:bg-charcoal hover:text-white transition-colors text-center"
             >
               Take the Fit Quiz
