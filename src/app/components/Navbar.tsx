@@ -4,10 +4,11 @@ import { useState } from "react";
 import { SearchIcon, UserIcon, CartIcon, MenuIcon, CloseIcon } from "./icons";
 
 const links = [
+  { label: "Home", href: "/" },
   { label: "Shop", href: "/shop" },
-  { label: "Best Sellers", href: "/shop" },
-  { label: "New", href: "/shop" },
-  { label: "Materials", href: "#" },
+  { label: "Best Sellers", href: "/best-sellers" },
+  { label: "New", href: "/new" },
+  { label: "Materials", href: "/materials" },
   { label: "About", href: "/about" },
 ];
 

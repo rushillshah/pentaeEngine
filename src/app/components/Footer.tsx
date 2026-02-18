@@ -2,8 +2,8 @@ const columns = [
   {
     title: "Shop",
     links: [
-      { label: "Best Sellers", href: "/shop" },
-      { label: "New Arrivals", href: "/shop" },
+      { label: "Best Sellers", href: "/best-sellers" },
+      { label: "New Arrivals", href: "/new" },
       { label: "Rings", href: "/shop" },
       { label: "Necklaces", href: "/shop" },
       { label: "Earrings", href: "/shop" },
@@ -24,7 +24,7 @@ const columns = [
     title: "Company",
     links: [
       { label: "Our Story", href: "/about" },
-      { label: "Materials", href: "#" },
+      { label: "Materials", href: "/materials" },
       { label: "Sustainability", href: "#" },
       { label: "Press", href: "#" },
       { label: "Careers", href: "#" },
