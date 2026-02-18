@@ -40,7 +40,54 @@ function makeUser(overrides: Partial<UserSeed> = {}): UserSeed {
   };
 }
 
-export async function seedAll(db: Knex) {
+interface ProductSeed {
+  product_id: string;
+  variant_id: string;
+  sku: string;
+  title: string;
+  variant_title: string;
+  quantity: number;
+  currency: string;
+  unit_price: number;
+  discount_amount: number;
+  tax_amount: number;
+  line_total: number;
+}
+
+const PRODUCTS = [
+  { title: "Fire Element Ring", skuPrefix: "FIRE-RING", productId: "prod_fire", unitPrice: 19900 },
+  { title: "Water Element Pendant", skuPrefix: "WATER-PENDANT", productId: "prod_water", unitPrice: 24900 },
+  { title: "Earth Element Bracelet", skuPrefix: "EARTH-BRACELET", productId: "prod_earth", unitPrice: 17900 },
+  { title: "Air Element Earrings", skuPrefix: "AIR-EARRINGS", productId: "prod_air", unitPrice: 14900 },
+  { title: "Aether Necklace", skuPrefix: "AETHER-NECKLACE", productId: "prod_aether", unitPrice: 29900 },
+];
+
+const SIZES = ["S", "M", "L"];
+
+function buildProductSeeds(): ProductSeed[] {
+  const seeds: ProductSeed[] = [];
+  for (const product of PRODUCTS) {
+    for (const size of SIZES) {
+      const quantity = 2;
+      seeds.push({
+        product_id: product.productId,
+        variant_id: `var_${product.productId.replace("prod_", "")}_${size.toLowerCase()}`,
+        sku: `${product.skuPrefix}-${size}`,
+        title: product.title,
+        variant_title: `Size ${size}`,
+        quantity,
+        currency: "AED",
+        unit_price: product.unitPrice,
+        discount_amount: 0,
+        tax_amount: 0,
+        line_total: product.unitPrice * quantity,
+      });
+    }
+  }
+  return seeds;
+}
+
+async function seedUsers(db: Knex) {
   await db("users").truncate();
 
   const admin = makeUser({
@@ -54,4 +101,16 @@ export async function seedAll(db: Knex) {
 
   await db("users").insert([admin, ...customers]);
   console.log("Seeded 10 users (1 admin + 9 customers).");
+}
+
+async function seedProducts(db: Knex) {
+  await db("products").truncate();
+  const products = buildProductSeeds();
+  await db("products").insert(products);
+  console.log(`Seeded ${products.length} product variants.`);
+}
+
+export async function seedAll(db: Knex) {
+  await seedUsers(db);
+  await seedProducts(db);
 }

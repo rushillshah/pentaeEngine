@@ -4,7 +4,7 @@
 exports.up = async function (knex) {
   await knex.schema.createTable("products", (t) => {
     t.increments("id").primary();
-    t.string("product_id", 50).notNullable().unique();
+    t.string("product_id", 50).notNullable();
     t.string("variant_id", 50).notNullable().unique();
     t.string("sku", 50).notNullable().unique();
     t.string("title", 255).notNullable();
