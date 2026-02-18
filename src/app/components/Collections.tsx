@@ -23,7 +23,7 @@ export default function Collections() {
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {collections.map((c) => (
-            <a key={c.name} href="#" className="group block">
+            <a key={c.name} href="/shop" className="group block">
               <PlaceholderImage
                 variant="gold"
                 label={c.label}

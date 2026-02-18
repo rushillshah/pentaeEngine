@@ -17,7 +17,7 @@ export default function Hero() {
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
             <a
-              href="#"
+              href="/shop"
               className="inline-block px-8 py-3 bg-gold text-white text-sm tracking-wide rounded hover:bg-gold-light transition-colors text-center"
             >
               Shop Best Sellers

@@ -1,15 +1,34 @@
 const columns = [
   {
     title: "Shop",
-    links: ["Best Sellers", "New Arrivals", "Rings", "Necklaces", "Earrings", "Bracelets"],
+    links: [
+      { label: "Best Sellers", href: "/shop" },
+      { label: "New Arrivals", href: "/shop" },
+      { label: "Rings", href: "/shop" },
+      { label: "Necklaces", href: "/shop" },
+      { label: "Earrings", href: "/shop" },
+      { label: "Bracelets", href: "/shop" },
+    ],
   },
   {
     title: "Help",
-    links: ["Sizing Guide", "Shipping & Returns", "Care Guide", "FAQ", "Contact Us"],
+    links: [
+      { label: "Sizing Guide", href: "#" },
+      { label: "Shipping & Returns", href: "#" },
+      { label: "Care Guide", href: "#" },
+      { label: "FAQ", href: "#" },
+      { label: "Contact Us", href: "#" },
+    ],
   },
   {
     title: "Company",
-    links: ["Our Story", "Materials", "Sustainability", "Press", "Careers"],
+    links: [
+      { label: "Our Story", href: "#" },
+      { label: "Materials", href: "#" },
+      { label: "Sustainability", href: "#" },
+      { label: "Press", href: "#" },
+      { label: "Careers", href: "#" },
+    ],
   },
 ];
 
@@ -36,12 +55,12 @@ export default function Footer() {
               </h4>
               <ul className="space-y-2.5">
                 {col.links.map((link) => (
-                  <li key={link}>
+                  <li key={link.label}>
                     <a
-                      href="#"
+                      href={link.href}
                       className="text-sm hover:text-white transition-colors"
                     >
-                      {link}
+                      {link.label}
                     </a>
                   </li>
                 ))}

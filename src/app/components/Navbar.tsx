@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { SearchIcon, UserIcon, CartIcon, MenuIcon, CloseIcon } from "./icons";
 
-const links = ["Shop", "Best Sellers", "New", "Materials", "About"];
+const links = [
+  { label: "Shop", href: "/shop" },
+  { label: "Best Sellers", href: "/shop" },
+  { label: "New", href: "/shop" },
+  { label: "Materials", href: "#" },
+  { label: "About", href: "#" },
+];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -19,12 +25,12 @@ export default function Navbar() {
         {/* Desktop links */}
         <ul className="hidden md:flex items-center gap-8">
           {links.map((l) => (
-            <li key={l}>
+            <li key={l.label}>
               <a
-                href="#"
+                href={l.href}
                 className="text-sm tracking-wide text-warm-gray hover:text-charcoal transition-colors"
               >
-                {l}
+                {l.label}
               </a>
             </li>
           ))}
@@ -56,12 +62,12 @@ export default function Navbar() {
         <div className="md:hidden border-t border-tan bg-cream px-6 pb-4">
           <ul className="flex flex-col gap-3 pt-3">
             {links.map((l) => (
-              <li key={l}>
+              <li key={l.label}>
                 <a
-                  href="#"
+                  href={l.href}
                   className="text-sm tracking-wide text-warm-gray hover:text-charcoal transition-colors"
                 >
-                  {l}
+                  {l.label}
                 </a>
               </li>
             ))}
