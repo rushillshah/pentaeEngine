@@ -35,12 +35,14 @@ export default function AccountForm() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-  // Load the admin user (id=1) for demo purposes
+  // Load current user from session
   useEffect(() => {
-    fetch("/api/users/1")
+    fetch("/api/auth/me")
       .then((res) => res.json())
       .then((data) => {
-        setUser(data);
+        if (data.user) {
+          setUser(data.user);
+        }
         setLoading(false);
       })
       .catch(() => setLoading(false));

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { UserIcon, CartIcon, MenuIcon, CloseIcon } from "./icons";
+import { useAuth } from "./AuthContext";
 
 const links = [
   { label: "Home", href: "/" },
@@ -13,6 +14,7 @@ const links = [
 ];
 
 export default function Navbar() {
+  const { user, loading, signOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -26,6 +28,11 @@ export default function Navbar() {
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
+
+  async function handleSignOut() {
+    await signOut();
+    window.location.href = "/";
+  }
 
   return (
     <nav className="sticky top-0 z-50 bg-cream/80 backdrop-blur-md border-b border-tan">
@@ -60,18 +67,46 @@ export default function Navbar() {
             >
               <UserIcon />
             </button>
-            {userOpen && (
-              <div className="absolute right-0 mt-2 w-44 bg-white border border-tan rounded-lg shadow-lg py-1 z-50">
-                <a
-                  href="/account"
-                  className="block px-4 py-2.5 text-sm text-charcoal hover:bg-cream-dark transition-colors"
-                >
-                  Account Settings
-                </a>
-                <div className="border-t border-tan" />
-                <button className="w-full text-left px-4 py-2.5 text-sm text-warm-gray hover:bg-cream-dark transition-colors">
-                  Sign Out
-                </button>
+            {userOpen && !loading && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border border-tan rounded-lg shadow-lg py-1 z-50">
+                {user ? (
+                  <>
+                    <div className="px-4 py-2 border-b border-tan">
+                      <p className="text-sm font-medium text-charcoal">
+                        {user.first_name} {user.last_name}
+                      </p>
+                      <p className="text-xs text-warm-gray truncate">{user.email}</p>
+                    </div>
+                    <a
+                      href="/account"
+                      className="block px-4 py-2.5 text-sm text-charcoal hover:bg-cream-dark transition-colors"
+                    >
+                      Account Settings
+                    </a>
+                    <div className="border-t border-tan" />
+                    <button
+                      onClick={handleSignOut}
+                      className="w-full text-left px-4 py-2.5 text-sm text-warm-gray hover:bg-cream-dark transition-colors"
+                    >
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <a
+                      href="/signin"
+                      className="block px-4 py-2.5 text-sm text-charcoal hover:bg-cream-dark transition-colors"
+                    >
+                      Sign In
+                    </a>
+                    <a
+                      href="/signup"
+                      className="block px-4 py-2.5 text-sm text-gold hover:bg-cream-dark transition-colors"
+                    >
+                      Create Account
+                    </a>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -103,14 +138,45 @@ export default function Navbar() {
                 </a>
               </li>
             ))}
-            <li>
-              <a
-                href="/account"
-                className="text-sm tracking-wide text-warm-gray hover:text-charcoal transition-colors"
-              >
-                Account Settings
-              </a>
-            </li>
+            {user ? (
+              <>
+                <li>
+                  <a
+                    href="/account"
+                    className="text-sm tracking-wide text-warm-gray hover:text-charcoal transition-colors"
+                  >
+                    Account Settings
+                  </a>
+                </li>
+                <li>
+                  <button
+                    onClick={handleSignOut}
+                    className="text-sm tracking-wide text-warm-gray hover:text-charcoal transition-colors"
+                  >
+                    Sign Out
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <a
+                    href="/signin"
+                    className="text-sm tracking-wide text-warm-gray hover:text-charcoal transition-colors"
+                  >
+                    Sign In
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/signup"
+                    className="text-sm tracking-wide text-gold hover:text-gold-light transition-colors"
+                  >
+                    Create Account
+                  </a>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       )}
