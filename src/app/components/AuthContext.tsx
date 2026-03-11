@@ -1,14 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
-
-interface AuthUser {
-  id: number;
-  email: string;
-  first_name: string;
-  last_name: string;
-  role: string;
-}
+import type { AuthUser } from "@/types/user";
 
 interface AuthContextValue {
   user: AuthUser | null;

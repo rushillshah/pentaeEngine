@@ -2,20 +2,8 @@ import { UserService } from "./UserService";
 import { hashPassword, verifyPassword } from "@/server/lib/auth";
 import { createSession, destroySession } from "@/server/lib/session";
 import db from "@/server/db/knex";
-import type { User } from "@/server/types/user";
-
-interface SignUpInput {
-  email: string;
-  password: string;
-  first_name: string;
-  last_name: string;
-}
-
-interface AuthResult {
-  success: boolean;
-  error?: string;
-  user?: Omit<User, "password_hash">;
-}
+import type { User } from "@/types/user";
+import type { SignUpInput, AuthResult } from "@/types/auth";
 
 export class AuthService {
   static async signUp(input: SignUpInput): Promise<AuthResult> {

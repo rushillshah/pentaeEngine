@@ -1,20 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-interface UserData {
-  id: number;
-  email: string;
-  first_name: string;
-  last_name: string;
-  phone: string | null;
-  shipping_address_line1: string | null;
-  shipping_address_line2: string | null;
-  shipping_city: string | null;
-  shipping_state: string | null;
-  shipping_postal_code: string | null;
-  shipping_country: string | null;
-}
+import type { AccountUserData } from "@/types/user";
 
 const FIELD_LABELS: Record<string, string> = {
   first_name: "First Name",
@@ -30,7 +17,7 @@ const FIELD_LABELS: Record<string, string> = {
 };
 
 export default function AccountForm() {
-  const [user, setUser] = useState<UserData | null>(null);
+  const [user, setUser] = useState<AccountUserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);

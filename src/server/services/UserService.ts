@@ -1,5 +1,5 @@
 import db from "@/server/db/knex";
-import type { User } from "@/server/types/user";
+import type { User, UserUpdateInput } from "@/types/user";
 
 export class UserService {
   static async getAll(): Promise<User[]> {
@@ -16,21 +16,7 @@ export class UserService {
 
   static async update(
     id: number,
-    data: Partial<
-      Pick<
-        User,
-        | "first_name"
-        | "last_name"
-        | "email"
-        | "phone"
-        | "shipping_address_line1"
-        | "shipping_address_line2"
-        | "shipping_city"
-        | "shipping_state"
-        | "shipping_postal_code"
-        | "shipping_country"
-      >
-    >
+    data: UserUpdateInput
   ): Promise<User | undefined> {
     const [updated] = await db<User>("users")
       .where({ id })

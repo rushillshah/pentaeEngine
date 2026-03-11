@@ -1,17 +1,12 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import type { SessionPayload } from "@/types/auth";
 
 const SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || "pentae-dev-secret-change-in-production"
 );
 const COOKIE_NAME = "pentae_session";
 const EXPIRES_IN = "7d";
-
-interface SessionPayload {
-  userId: number;
-  email: string;
-  role: string;
-}
 
 export async function createSession(payload: SessionPayload): Promise<string> {
   const token = await new SignJWT(payload as unknown as Record<string, unknown>)

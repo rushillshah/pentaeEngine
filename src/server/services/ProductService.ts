@@ -1,5 +1,5 @@
 import db from "@/server/db/knex";
-import type { Product } from "@/server/types/product";
+import type { Product } from "@/types/product";
 
 export class ProductService {
   static async getAll(): Promise<Product[]> {
