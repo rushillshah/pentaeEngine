@@ -9,8 +9,27 @@ async function reset() {
     await db.raw("DROP TABLE IF EXISTS knex_migrations_lock CASCADE");
     await db.raw("DROP TABLE IF EXISTS knex_migrations CASCADE");
 
-    // Drop application tables
+    // Drop personalization tables
+    await db.raw("DROP TABLE IF EXISTS personalization_recommendation_items CASCADE");
+    await db.raw("DROP TABLE IF EXISTS personalization_recommendations CASCADE");
+    await db.raw("DROP TABLE IF EXISTS personalization_module_responses CASCADE");
+    await db.raw("DROP TABLE IF EXISTS personalization_sessions CASCADE");
+
+    // Drop commerce tables
+    await db.raw("DROP TABLE IF EXISTS payment_webhook_events CASCADE");
+    await db.raw("DROP TABLE IF EXISTS payment_attempts CASCADE");
+    await db.raw("DROP TABLE IF EXISTS order_items CASCADE");
+    await db.raw("DROP TABLE IF EXISTS orders CASCADE");
+    await db.raw("DROP TABLE IF EXISTS cart_items CASCADE");
+    await db.raw("DROP TABLE IF EXISTS carts CASCADE");
+
+    // Drop product tables
+    await db.raw("DROP TABLE IF EXISTS product_images CASCADE");
     await db.raw("DROP TABLE IF EXISTS products CASCADE");
+
+    // Drop user tables
+    await db.raw("DROP TABLE IF EXISTS user_country_preferences CASCADE");
+    await db.raw("DROP TABLE IF EXISTS anonymous_users CASCADE");
     await db.raw("DROP TABLE IF EXISTS users CASCADE");
 
     // Drop custom enum types

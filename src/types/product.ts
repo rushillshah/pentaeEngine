@@ -1,3 +1,5 @@
+import type { ElementCode, ProductTypeCode } from "./enums";
+
 export interface Product {
   id: number;
   product_id: string;
@@ -42,6 +44,21 @@ export interface Product {
   charm_diamond: string | null;
   charm_diamond_weight: number | null;
   charm_care: string | null;
+  // New fields
+  primary_element: ElementCode | null;
+  product_type: ProductTypeCode | null;
+  is_active: boolean;
+  in_stock: boolean;
+  price_inr: number | null; // minor units (paise)
+  price_aed: number | null; // minor units (fils)
   created_at: Date;
   updated_at: Date;
+}
+
+export interface ProductImage {
+  id: number;
+  product_id: number;
+  url: string;
+  sort_order: number;
+  created_at: Date;
 }
