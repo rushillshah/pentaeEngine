@@ -91,6 +91,10 @@ export default function QuizWizard() {
       <QuizResults
         elementVector={result.elementVector}
         dominantElement={result.dominantElement}
+        narrativeText={result.narrativeText}
+        narrativeSource={result.narrativeSource}
+        fullName={details.fullName}
+        numerologyDetails={result.numerologyDetails}
       />
     );
   }
@@ -111,6 +115,7 @@ export default function QuizWizard() {
 
       {step >= 2 && step <= 17 && (
         <QuizQuestion
+          key={step}
           questionNumber={step - 1}
           questionText={QUESTIONS[step - 2].text}
           value={answers[step - 2]}

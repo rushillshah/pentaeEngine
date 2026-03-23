@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 export interface PersonalDetails {
   fullName: string;
   dob: string;
@@ -17,14 +21,56 @@ interface QuizPersonalDetailsProps {
 const INPUT_CLASS =
   "mt-1 w-full px-3 py-2 border border-tan rounded bg-white text-charcoal text-sm focus:outline-none focus:border-gold transition-colors";
 
+const SELECT_CLASS =
+  "mt-1 w-full px-3 py-2 border border-tan rounded bg-white text-charcoal text-sm focus:outline-none focus:border-gold transition-colors appearance-none";
+
+function formatHourLabel(h: number): string {
+  if (h === 0) return "0 (12 AM)";
+  if (h < 12) return `${h} (${h} AM)`;
+  if (h === 12) return "12 (12 PM)";
+  return `${h} (${h - 12} PM)`;
+}
+
 export default function QuizPersonalDetails({
   details,
   onChange,
   onNext,
   onBack,
 }: QuizPersonalDetailsProps) {
+  const [geoError, setGeoError] = useState<string | null>(null);
+  const [geoLoading, setGeoLoading] = useState(false);
+
   function update(field: keyof PersonalDetails, value: string | number) {
     return { ...details, [field]: value };
+  }
+
+  function handleUseMyLocation() {
+    if (!navigator.geolocation) {
+      setGeoError("Geolocation is not supported by your browser.");
+      return;
+    }
+
+    setGeoError(null);
+    setGeoLoading(true);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = parseFloat(position.coords.latitude.toFixed(4));
+        const lng = parseFloat(position.coords.longitude.toFixed(4));
+        onChange({ ...details, birthLat: lat, birthLng: lng });
+        setGeoLoading(false);
+      },
+      (err) => {
+        const messages: Record<number, string> = {
+          1: "Location access was denied. Please enter coordinates manually.",
+          2: "Unable to determine your location. Please enter coordinates manually.",
+          3: "Location request timed out. Please try again or enter manually.",
+        };
+        setGeoError(messages[err.code] || "Failed to get location.");
+        setGeoLoading(false);
+      },
+      { timeout: 10000 }
+    );
   }
 
   const isValid =
@@ -40,7 +86,7 @@ export default function QuizPersonalDetails({
     details.birthLng <= 180;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 animate-fade-in-up">
       <h2 className="font-serif text-2xl text-charcoal mb-2">
         Personal Details
       </h2>
@@ -75,40 +121,55 @@ export default function QuizPersonalDetails({
         <span className="text-sm text-warm-gray">Birth Time</span>
         <div className="grid grid-cols-2 gap-3 mt-1">
           <label className="block">
-            <span className="text-xs text-warm-gray">Hour (0-23)</span>
-            <input
-              type="number"
-              required
-              min={0}
-              max={23}
+            <span className="text-xs text-warm-gray">Hour</span>
+            <select
               value={details.birthHour}
               onChange={(e) =>
-                onChange(update("birthHour", parseInt(e.target.value, 10) || 0))
+                onChange(update("birthHour", parseInt(e.target.value, 10)))
               }
-              className={INPUT_CLASS}
-            />
+              className={SELECT_CLASS}
+            >
+              {Array.from({ length: 24 }, (_, h) => (
+                <option key={h} value={h}>
+                  {formatHourLabel(h)}
+                </option>
+              ))}
+            </select>
           </label>
           <label className="block">
-            <span className="text-xs text-warm-gray">Minute (0-59)</span>
-            <input
-              type="number"
-              required
-              min={0}
-              max={59}
+            <span className="text-xs text-warm-gray">Minute</span>
+            <select
               value={details.birthMinute}
               onChange={(e) =>
-                onChange(
-                  update("birthMinute", parseInt(e.target.value, 10) || 0)
-                )
+                onChange(update("birthMinute", parseInt(e.target.value, 10)))
               }
-              className={INPUT_CLASS}
-            />
+              className={SELECT_CLASS}
+            >
+              {Array.from({ length: 60 }, (_, m) => (
+                <option key={m} value={m}>
+                  {String(m).padStart(2, "0")}
+                </option>
+              ))}
+            </select>
           </label>
         </div>
       </div>
 
       <div>
-        <span className="text-sm text-warm-gray">Birth Location</span>
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-warm-gray">Birth Location</span>
+          <button
+            type="button"
+            onClick={handleUseMyLocation}
+            disabled={geoLoading}
+            className="text-xs text-gold hover:text-gold-light transition-colors disabled:opacity-50"
+          >
+            {geoLoading ? "Locating..." : "Use my location"}
+          </button>
+        </div>
+        {geoError && (
+          <p className="text-xs text-red-500 mt-1">{geoError}</p>
+        )}
         <div className="grid grid-cols-2 gap-3 mt-1">
           <label className="block">
             <span className="text-xs text-warm-gray">Latitude (-90 to 90)</span>
@@ -147,6 +208,9 @@ export default function QuizPersonalDetails({
             />
           </label>
         </div>
+        <p className="text-xs text-warm-gray mt-1.5">
+          Used for your astrological birth chart calculation
+        </p>
       </div>
 
       <div className="flex justify-between pt-4">

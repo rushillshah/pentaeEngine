@@ -24,13 +24,13 @@ export default function QuizQuestion({
   onBack,
 }: QuizQuestionProps) {
   return (
-    <div>
-      <p className="text-sm text-warm-gray mb-2">Question {questionNumber} of 8</p>
+    <div className="animate-fade-in-up">
+      <p className="text-sm text-warm-gray mb-2">Question {questionNumber} of 16</p>
       <h2 className="font-serif text-xl md:text-2xl text-charcoal mb-8 leading-relaxed">
         {questionText}
       </h2>
 
-      <div className="flex flex-wrap gap-2 mb-10">
+      <div className="flex flex-col sm:flex-row flex-wrap gap-2 mb-10">
         {LIKERT_LABELS.map((label, i) => {
           const score = i + 1;
           const isSelected = value === score;
@@ -39,9 +39,9 @@ export default function QuizQuestion({
             <button
               key={score}
               onClick={() => onAnswer(score)}
-              className={`flex-1 min-w-[100px] px-3 py-2.5 text-xs sm:text-sm rounded transition-colors ${
+              className={`flex-1 min-w-[100px] min-h-[48px] px-3 py-3 text-xs sm:text-sm rounded transition-all duration-200 ${
                 isSelected
-                  ? "bg-gold text-white"
+                  ? "bg-gold text-white scale-105 transform"
                   : "border border-tan text-charcoal hover:border-gold"
               }`}
             >
