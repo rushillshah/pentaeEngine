@@ -1,19 +1,22 @@
 """
 Combined Engine Supervisor.
-Runs numerology + MBTI personality modules, shows individual outputs,
+Runs numerology + MBTI + astrology modules, shows individual outputs,
 then combines them into a unified elemental profile.
 """
 import sys
 from .numerology import supervisor as numerology
 from .mbti import supervisor as mbti
 from .mbti.constants import parameters as mbti_params
+from .astrology import supervisor as astrology
+from .astrology.utils import geocoder
 
 ELEMENTS = ["air", "water", "fire", "earth", "spirit"]
 
-# Module weights for combining (equal for now — 2 of 4 planned modules)
+# Module weights for combining (equal split — 3 of 4 planned modules)
 MODULE_WEIGHTS = {
-    "numerology": 0.5,
-    "mbti": 0.5,
+    "numerology": 0.33,
+    "mbti": 0.33,
+    "astrology": 0.34,
 }
 
 
@@ -55,7 +58,7 @@ def print_element_bar(vector, title):
 def main():
     print("=" * 40)
     print("  PENTAE ELEMENTAL ENGINE")
-    print("  Numerology + Personality (MBTI)")
+    print("  Numerology + MBTI + Astrology")
     print("=" * 40)
 
     # ── Numerology inputs ──────────────────────────────
@@ -78,20 +81,55 @@ def main():
     answers = mbti.collect_answers_interactive()
     mbti_result = mbti.run(answers)
 
+    # ── Astrology inputs ─────────────────────────────
+    print("\n--- ASTROLOGY MODULE ---")
+    try:
+        parts = dob_input.split("-")
+        year, month, day = int(parts[0]), int(parts[1]), int(parts[2])
+
+        time_input = input("Enter Birth Time (HH:MM, 24h): ").strip()
+        time_parts = time_input.split(":")
+        hour, minute = int(time_parts[0]), int(time_parts[1])
+
+        lat_input = input("Enter Birth Latitude (e.g. 25.2048): ").strip()
+        lng_input = input("Enter Birth Longitude (e.g. 55.2708): ").strip()
+        lat, lng = float(lat_input), float(lng_input)
+    except (KeyboardInterrupt, EOFError):
+        print("\nGoodbye.")
+        sys.exit()
+    except (ValueError, IndexError) as e:
+        print(f"\nInput error: {e}")
+        return
+
+    try:
+        tz_str = geocoder.resolve_timezone(lat, lng)
+        print(f"Resolved timezone: {tz_str}")
+    except ValueError as e:
+        print(f"\nTimezone error: {e}")
+        return
+
+    try:
+        astro_result = astrology.run(year, month, day, hour, minute, lat, lng, tz_str)
+    except Exception as e:
+        print(f"\nAstrology error: {e}")
+        return
+
     # ── Individual reports ─────────────────────────────
     numerology.print_report(num_result, name_input)
     mbti.print_report(mbti_result)
+    astrology.print_report(astro_result)
 
     # ── Combined output ────────────────────────────────
     combined_vec = combine_vectors(
         {
             "numerology": num_result["element_vector"],
             "mbti": mbti_result["element_vector"],
+            "astrology": astro_result["element_vector"],
         },
         MODULE_WEIGHTS,
     )
 
-    print_element_bar(combined_vec, "COMBINED ELEMENTAL QUINTESSENCE (50/50)")
+    print_element_bar(combined_vec, "COMBINED ELEMENTAL QUINTESSENCE (33/33/34)")
 
     print(f"\n[WEIGHTS USED]")
     for mod, w in MODULE_WEIGHTS.items():
