@@ -12,6 +12,7 @@ import {
   EXPRESSION_MEANINGS,
   SOUL_URGE_MEANINGS,
 } from "@/server/engines/numerology/meanings";
+import { NarrativeService } from "@/server/services/NarrativeService";
 import type {
   ElementVector,
   NumerologyDetails,
@@ -158,6 +159,12 @@ export class PersonalizationService {
       numResult.soulUrge,
     );
 
+    const narrative = await NarrativeService.generateNarrative({
+      fullName: input.fullName,
+      dominantElement,
+      elementVector,
+    });
+
     await db("personalization_sessions").where({ id: sessionId }).update({
       air_score: elementVector.air,
       water_score: elementVector.water,
@@ -166,6 +173,8 @@ export class PersonalizationService {
       spirit_score: elementVector.spirit,
       dominant_element: dominantElement,
       weights_used: JSON.stringify(weights),
+      narrative_text: narrative.text,
+      narrative_source: narrative.source,
       status: "COMPLETED",
       completed_at: new Date(),
     });
@@ -175,8 +184,8 @@ export class PersonalizationService {
       elementVector,
       dominantElement,
       numerologyDetails,
-      narrativeText: "",
-      narrativeSource: "FALLBACK",
+      narrativeText: narrative.text,
+      narrativeSource: narrative.source,
     };
   }
 
