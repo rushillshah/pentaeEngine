@@ -11,7 +11,7 @@ import QuizQuestion from "./QuizQuestion";
 import QuizLoading from "./QuizLoading";
 import QuizResults from "./QuizResults";
 
-const TOTAL_STEPS = 9; // 1 personal details + 8 questions
+const TOTAL_STEPS = 17; // 1 personal details + 16 questions
 
 export default function QuizWizard() {
   const [step, setStep] = useState(0);
@@ -24,7 +24,7 @@ export default function QuizWizard() {
     birthLng: 0,
   });
   const [answers, setAnswers] = useState<(number | null)[]>(
-    Array(8).fill(null)
+    Array(16).fill(null)
   );
   const [result, setResult] = useState<QuizResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -58,7 +58,7 @@ export default function QuizWizard() {
         return;
       }
       setResult(data);
-      setStep(11);
+      setStep(19);
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
@@ -67,8 +67,8 @@ export default function QuizWizard() {
   }
 
   function handleQuestionNext(questionIndex: number) {
-    if (questionIndex === 7) {
-      setStep(10);
+    if (questionIndex === 15) {
+      setStep(18);
       submitQuiz();
     } else {
       setStep(step + 1);
@@ -80,13 +80,13 @@ export default function QuizWizard() {
     return <QuizWelcome onStart={() => setStep(1)} />;
   }
 
-  // Step 10: Loading
-  if (step === 10) {
+  // Step 18: Loading
+  if (step === 18) {
     return <QuizLoading error={error} />;
   }
 
-  // Step 11: Results
-  if (step === 11 && result) {
+  // Step 19: Results
+  if (step === 19 && result) {
     return (
       <QuizResults
         elementVector={result.elementVector}
@@ -95,7 +95,7 @@ export default function QuizWizard() {
     );
   }
 
-  // Steps 1-9: Personal details + 8 questions
+  // Steps 1-17: Personal details + 16 questions
   return (
     <>
       <QuizProgress current={step} total={TOTAL_STEPS} />
@@ -109,7 +109,7 @@ export default function QuizWizard() {
         />
       )}
 
-      {step >= 2 && step <= 9 && (
+      {step >= 2 && step <= 17 && (
         <QuizQuestion
           questionNumber={step - 1}
           questionText={QUESTIONS[step - 2].text}

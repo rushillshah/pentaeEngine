@@ -3,52 +3,50 @@ import { normalizeFunctions, scoreFunctions } from "../scorer";
 
 describe("scoreFunctions", () => {
   it("scores extreme answers correctly", () => {
-    const scores = scoreFunctions([5, 1, 5, 1, 5, 1, 5, 1]);
+    const scores = scoreFunctions([5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1]);
 
-    // Q1: favored=Ni(5), opposite=Se(1). Q2: favored=Se(1), opposite=Ni(5)
-    // Ni = 5 + 5 = 10, Se = 1 + 1 = 2
-    expect(scores.Ni).toBe(10);
-    expect(scores.Se).toBe(2);
-    // Q3: favored=Ne(5), opposite=Si(1). Q4: favored=Si(1), opposite=Ne(5)
-    expect(scores.Ne).toBe(10);
-    expect(scores.Si).toBe(2);
-    // Q5: favored=Ti(5), opposite=Fi(1). Q6: favored=Fi(1), opposite=Ti(5)
-    expect(scores.Ti).toBe(10);
-    expect(scores.Fi).toBe(2);
-    // Q7: favored=Te(5), opposite=Fe(1). Q8: favored=Fe(1), opposite=Te(5)
-    expect(scores.Te).toBe(10);
-    expect(scores.Fe).toBe(2);
+    // Each function appears 4 times: 2 as favored, 2 as opposite
+    // Ni: favored Q1(5) + Q9(5) = 10, opposite of Q2(6-1=5) + Q10(6-1=5) = 10 → 20
+    // Se: favored Q2(1) + Q10(1) = 2, opposite of Q1(6-5=1) + Q9(6-5=1) = 2 → 4
+    expect(scores.Ni).toBe(20);
+    expect(scores.Se).toBe(4);
+    expect(scores.Ne).toBe(20);
+    expect(scores.Si).toBe(4);
+    expect(scores.Ti).toBe(20);
+    expect(scores.Fi).toBe(4);
+    expect(scores.Te).toBe(20);
+    expect(scores.Fe).toBe(4);
   });
 
-  it("scores neutral answers (all 3s) to 6 each", () => {
-    const scores = scoreFunctions([3, 3, 3, 3, 3, 3, 3, 3]);
+  it("scores neutral answers (all 3s) to 12 each", () => {
+    const scores = scoreFunctions([3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]);
     for (const fn of Object.keys(scores)) {
-      expect(scores[fn]).toBe(6);
+      expect(scores[fn]).toBe(12);
     }
   });
 
   it("throws on wrong answer count", () => {
-    expect(() => scoreFunctions([1, 2, 3])).toThrow("Expected 8 answers, got 3.");
-    expect(() => scoreFunctions([])).toThrow("Expected 8 answers, got 0.");
+    expect(() => scoreFunctions([1, 2, 3])).toThrow("Expected 16 answers, got 3.");
+    expect(() => scoreFunctions([])).toThrow("Expected 16 answers, got 0.");
   });
 
   it("throws on out-of-range answer", () => {
-    expect(() => scoreFunctions([0, 3, 3, 3, 3, 3, 3, 3])).toThrow(
+    expect(() => scoreFunctions([0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3])).toThrow(
       "Answer 1 must be an integer 1-5, got 0.",
     );
-    expect(() => scoreFunctions([3, 3, 3, 3, 3, 3, 3, 6])).toThrow(
-      "Answer 8 must be an integer 1-5, got 6.",
+    expect(() => scoreFunctions([3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 6])).toThrow(
+      "Answer 16 must be an integer 1-5, got 6.",
     );
   });
 
   it("throws on non-integer answer", () => {
-    expect(() => scoreFunctions([1.5, 3, 3, 3, 3, 3, 3, 3])).toThrow(
+    expect(() => scoreFunctions([1.5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3])).toThrow(
       "Answer 1 must be an integer 1-5, got 1.5.",
     );
   });
 
   it("returns all 8 functions", () => {
-    const scores = scoreFunctions([3, 3, 3, 3, 3, 3, 3, 3]);
+    const scores = scoreFunctions([3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]);
     expect(Object.keys(scores).sort()).toEqual(
       ["Fe", "Fi", "Ne", "Ni", "Se", "Si", "Te", "Ti"],
     );

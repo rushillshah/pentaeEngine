@@ -1,14 +1,14 @@
 import { FUNCTIONS, QUESTIONS } from "./constants";
 
 /**
- * Convert 8 Likert answers (1-5) into raw cognitive function scores.
+ * Convert 16 Likert answers (1-5) into raw cognitive function scores.
  *
  * For each question: favored function gets v, opposite gets 6 - v.
- * Each function appears in exactly 2 questions, so scores range 2-10.
+ * Each function appears in exactly 4 questions, so scores range 4-20.
  */
 export function scoreFunctions(answers: number[]): Record<string, number> {
-  if (answers.length !== 8) {
-    throw new Error(`Expected 8 answers, got ${answers.length}.`);
+  if (answers.length !== 16) {
+    throw new Error(`Expected 16 answers, got ${answers.length}.`);
   }
 
   const scores: Record<string, number> = {};

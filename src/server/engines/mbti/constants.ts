@@ -7,12 +7,13 @@ export const FUNCTIONS = [
 
 export type CognitiveFunction = (typeof FUNCTIONS)[number];
 
-/** 8 Likert questions (1-5). Each has a favored and opposite function. */
+/** 16 Likert questions (1-5). Each has a favored and opposite function. */
 export const QUESTIONS: ReadonlyArray<{
   text: string;
   favored: CognitiveFunction;
   opposite: CognitiveFunction;
 }> = [
+  // Pair 1: Ni vs Se
   {
     text: "I often get strong 'big picture' insights about where things are heading, even before there are obvious signs.",
     favored: "Ni",
@@ -23,6 +24,7 @@ export const QUESTIONS: ReadonlyArray<{
     favored: "Se",
     opposite: "Ni",
   },
+  // Pair 1: Ne vs Si
   {
     text: "I quickly generate multiple ideas or alternatives when facing a problem, even if some of them seem wild or unrealistic.",
     favored: "Ne",
@@ -33,6 +35,7 @@ export const QUESTIONS: ReadonlyArray<{
     favored: "Si",
     opposite: "Ne",
   },
+  // Pair 1: Ti vs Fi
   {
     text: "When I evaluate something, I focus first on whether it is logically consistent, even if it might upset people.",
     favored: "Ti",
@@ -43,6 +46,7 @@ export const QUESTIONS: ReadonlyArray<{
     favored: "Fi",
     opposite: "Ti",
   },
+  // Pair 1: Te vs Fe
   {
     text: "In groups, I naturally focus on getting things done efficiently, even if it means being direct or blunt.",
     favored: "Te",
@@ -50,6 +54,54 @@ export const QUESTIONS: ReadonlyArray<{
   },
   {
     text: "In groups, I automatically notice how everyone is feeling and adjust my behavior to keep harmony.",
+    favored: "Fe",
+    opposite: "Te",
+  },
+  // Pair 2: Ni vs Se
+  {
+    text: "I tend to see patterns and connections that others miss, even in unrelated things.",
+    favored: "Ni",
+    opposite: "Se",
+  },
+  // Pair 2: Se vs Ni
+  {
+    text: "I prefer to learn by doing rather than theorizing — hands-on experience teaches me best.",
+    favored: "Se",
+    opposite: "Ni",
+  },
+  // Pair 2: Ne vs Si
+  {
+    text: "I get excited brainstorming possibilities without needing a concrete plan right away.",
+    favored: "Ne",
+    opposite: "Si",
+  },
+  // Pair 2: Si vs Ne
+  {
+    text: "I find comfort in familiar places, routines, and traditions — they ground me.",
+    favored: "Si",
+    opposite: "Ne",
+  },
+  // Pair 2: Ti vs Fi
+  {
+    text: "I enjoy taking things apart mentally to understand how they work at a fundamental level.",
+    favored: "Ti",
+    opposite: "Fi",
+  },
+  // Pair 2: Fi vs Ti
+  {
+    text: "I can immediately sense when something conflicts with my core beliefs, even if I can't explain why.",
+    favored: "Fi",
+    opposite: "Ti",
+  },
+  // Pair 2: Te vs Fe
+  {
+    text: "I organize my environment and schedule to maximize productivity and efficiency.",
+    favored: "Te",
+    opposite: "Fe",
+  },
+  // Pair 2: Fe vs Te
+  {
+    text: "I naturally create warmth and inclusion in social settings, making sure everyone feels welcome.",
     favored: "Fe",
     opposite: "Te",
   },

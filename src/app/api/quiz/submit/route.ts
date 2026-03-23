@@ -80,10 +80,10 @@ function validateQuizInput(
     };
   }
 
-  if (!Array.isArray(b.mbtiAnswers) || b.mbtiAnswers.length !== 8) {
+  if (!Array.isArray(b.mbtiAnswers) || b.mbtiAnswers.length !== 16) {
     return {
       valid: false,
-      error: "mbtiAnswers must be an array of exactly 8 integers",
+      error: "mbtiAnswers must be an array of exactly 16 integers",
     };
   }
 
