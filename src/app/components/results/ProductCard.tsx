@@ -41,7 +41,7 @@ export default function ProductCard({ product, matchScore }: ProductCardProps) {
               : undefined
           }
         >
-          <span className="text-4xl opacity-40">{meta?.icon || ""}</span>
+          {meta && <meta.Icon size={40} className="opacity-40" style={{ color: meta.color }} />}
         </div>
 
         {matchScore !== undefined && (
@@ -74,7 +74,7 @@ export default function ProductCard({ product, matchScore }: ProductCardProps) {
                 color: meta.color,
               }}
             >
-              {meta.icon} {meta.label}
+              <span className="inline-flex items-center gap-1"><meta.Icon size={12} /> {meta.label}</span>
             </span>
           )}
         </div>

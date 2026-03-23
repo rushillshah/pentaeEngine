@@ -36,7 +36,7 @@ export default function QuizWelcome({ onStart }: QuizWelcomeProps) {
               animationDelay: `${i * 0.1}s`,
             }}
           >
-            {el.icon}
+            <el.Icon size={20} style={{ color: el.color }} />
           </div>
         ))}
       </div>

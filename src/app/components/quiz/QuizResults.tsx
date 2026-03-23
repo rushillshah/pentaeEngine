@@ -69,7 +69,9 @@ export default function QuizResults({
           className="border-l-4 rounded-lg bg-white/50 p-6 mb-10 max-w-lg mx-auto"
           style={{ borderColor: dominantMeta.color }}
         >
-          <div className="text-5xl mb-3">{dominantMeta.icon}</div>
+          <div className="mb-3" style={{ color: dominantMeta.color }}>
+            <dominantMeta.Icon size={48} />
+          </div>
           <h3
             className="font-serif text-2xl font-semibold mb-2"
             style={{ color: dominantMeta.color }}
@@ -93,8 +95,8 @@ export default function QuizResults({
           return (
             <div key={element}>
               <div className="flex justify-between items-center mb-1">
-                <span className="text-sm text-charcoal capitalize font-medium">
-                  {meta?.icon} {element}
+                <span className="text-sm text-charcoal capitalize font-medium inline-flex items-center gap-1.5">
+                  {meta && <meta.Icon size={14} style={{ color: meta.color }} />} {element}
                 </span>
                 <span className="text-sm text-warm-gray">
                   {score.toFixed(2)}

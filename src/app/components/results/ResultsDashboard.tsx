@@ -76,7 +76,9 @@ export default function ResultsDashboard({
             className="border-l-4 rounded-lg bg-white/50 p-8 max-w-xl mx-auto"
             style={{ borderColor: meta.color }}
           >
-            <div className="text-6xl mb-4">{meta.icon}</div>
+            <div className="mb-4" style={{ color: meta.color }}>
+              <meta.Icon size={56} />
+            </div>
             <h1
               className="font-serif text-3xl md:text-4xl font-semibold mb-3"
               style={{ color: meta.color }}
@@ -116,8 +118,8 @@ export default function ResultsDashboard({
             return (
               <div key={element}>
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm text-charcoal capitalize font-medium">
-                    {elMeta?.icon} {element}
+                  <span className="text-sm text-charcoal capitalize font-medium inline-flex items-center gap-1.5">
+                    {elMeta && <elMeta.Icon size={14} style={{ color: elMeta.color }} />} {element}
                   </span>
                   <span className="text-sm text-warm-gray">
                     {score.toFixed(2)}

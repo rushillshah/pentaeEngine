@@ -73,17 +73,58 @@ export default function QuizPersonalDetails({
     );
   }
 
-  const isValid =
-    details.fullName.trim() !== "" &&
-    details.dob !== "" &&
-    details.birthHour >= 0 &&
-    details.birthHour <= 23 &&
-    details.birthMinute >= 0 &&
-    details.birthMinute <= 59 &&
-    details.birthLat >= -90 &&
-    details.birthLat <= 90 &&
-    details.birthLng >= -180 &&
-    details.birthLng <= 180;
+  const [showErrors, setShowErrors] = useState(false);
+
+  function getValidationErrors(): string[] {
+    const errors: string[] = [];
+    const name = details.fullName.trim();
+    if (!name) {
+      errors.push("Full name is required.");
+    } else if (!/^[a-zA-Z\s\-'.]+$/.test(name)) {
+      errors.push("Name can only contain letters, spaces, hyphens, and apostrophes.");
+    } else if (name.length > 200) {
+      errors.push("Name must be 200 characters or fewer.");
+    }
+
+    if (!details.dob) {
+      errors.push("Date of birth is required.");
+    } else {
+      const [y, m, d] = details.dob.split("-").map(Number);
+      const parsed = new Date(y, m - 1, d);
+      const now = new Date();
+      if (
+        parsed.getFullYear() !== y ||
+        parsed.getMonth() !== m - 1 ||
+        parsed.getDate() !== d
+      ) {
+        errors.push("Date of birth must be a valid date in YYYY-MM-DD format.");
+      } else if (y < 1900) {
+        errors.push("Year must be 1900 or later.");
+      } else if (parsed > now) {
+        errors.push("Date of birth cannot be in the future.");
+      }
+    }
+
+    if (details.birthLat < -90 || details.birthLat > 90 || !Number.isFinite(details.birthLat)) {
+      errors.push("Latitude must be between -90 and 90.");
+    }
+    if (details.birthLng < -180 || details.birthLng > 180 || !Number.isFinite(details.birthLng)) {
+      errors.push("Longitude must be between -180 and 180.");
+    }
+
+    return errors;
+  }
+
+  const validationErrors = getValidationErrors();
+  const isValid = validationErrors.length === 0;
+
+  function handleNext() {
+    if (!isValid) {
+      setShowErrors(true);
+      return;
+    }
+    onNext();
+  }
 
   return (
     <div className="space-y-5 animate-fade-in-up">
@@ -93,6 +134,14 @@ export default function QuizPersonalDetails({
       <p className="text-sm text-warm-gray mb-6">
         We use your birth information to calculate your elemental profile.
       </p>
+
+      {showErrors && validationErrors.length > 0 && (
+        <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded px-4 py-3 space-y-1">
+          {validationErrors.map((err, i) => (
+            <p key={i}>{err}</p>
+          ))}
+        </div>
+      )}
 
       <label className="block">
         <span className="text-sm text-warm-gray">Full Name</span>
@@ -221,9 +270,8 @@ export default function QuizPersonalDetails({
           Back
         </button>
         <button
-          onClick={onNext}
-          disabled={!isValid}
-          className="px-6 py-2.5 bg-gold text-white text-sm tracking-wide rounded hover:bg-gold-light transition-colors disabled:opacity-50"
+          onClick={handleNext}
+          className="px-6 py-2.5 bg-gold text-white text-sm tracking-wide rounded hover:bg-gold-light transition-colors"
         >
           Next
         </button>

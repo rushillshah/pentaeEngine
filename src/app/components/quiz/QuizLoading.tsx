@@ -34,8 +34,8 @@ export default function QuizLoading({ error }: QuizLoadingProps) {
     <div className="flex flex-col items-center justify-center py-16 text-center animate-fade-in-up">
       {!error && (
         <>
-          <div className="text-5xl mb-4 transition-opacity duration-300">
-            {currentElement.icon}
+          <div className="mb-4 transition-opacity duration-300" style={{ color: currentElement.color }}>
+            <currentElement.Icon size={48} />
           </div>
           <p className="text-warm-gray text-lg mb-6">
             {ELEMENT_MESSAGES[currentKey]}

@@ -1,6 +1,7 @@
 interface IconProps {
   className?: string;
   size?: number;
+  style?: React.CSSProperties;
 }
 
 export function SearchIcon({ className = "", size = 20 }: IconProps) {
@@ -186,6 +187,107 @@ export function LeafIcon({ className = "", size = 24 }: IconProps) {
     >
       <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66L7 18" />
       <path d="M17 8c4-1 6.5-3.5 6.5-3.5S20 2 16 3c-4.46 1.12-7.67 4.67-9 8" />
+    </svg>
+  );
+}
+
+// ── Element Icons ─────────────────────────────────────
+
+export function FireIcon({ className = "", size = 24, style }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      style={style}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M12 22c-4.97 0-9-3.58-9-8 0-4 3.5-8 5-9.5.42 2.46 2.08 3.5 3 3.5 1 0 1.5-1.5 1-3 2 1 4 4 4 6.5 1-.5 2-2 2-4 2 3 3 5.5 3 6.5 0 4.42-4.03 8-9 8z" />
+    </svg>
+  );
+}
+
+export function WaterIcon({ className = "", size = 24, style }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      style={style}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+    </svg>
+  );
+}
+
+export function AirIcon({ className = "", size = 24, style }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      style={style}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M9.59 4.59A2 2 0 1 1 11 8H2" />
+      <path d="M12.59 19.41A2 2 0 1 0 14 16H2" />
+      <path d="M17.73 7.73A2.5 2.5 0 1 1 19.5 12H2" />
+    </svg>
+  );
+}
+
+export function EarthIcon({ className = "", size = 24, style }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      style={style}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z" />
+      <path d="M2 12h20" />
+      <path d="M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z" />
+    </svg>
+  );
+}
+
+export function SpiritIcon({ className = "", size = 24, style }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      style={style}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M12 2l2.09 6.26L20.18 9.27l-5.09 3.9L16.18 19.73 12 16.27l-4.18 3.46 1.09-6.56-5.09-3.9 6.09-1.01z" />
     </svg>
   );
 }
