@@ -117,7 +117,7 @@ function parseNatalChart(data: FreeAstrologyResponse): NatalChart {
     chart[planet] = { sign: planetData.sign, house: planetData.house };
   }
 
-  return chart as NatalChart;
+  return chart as unknown as NatalChart;
 }
 
 /**
