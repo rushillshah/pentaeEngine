@@ -52,14 +52,18 @@ interface ProductSeed {
   discount_amount: number;
   tax_amount: number;
   line_total: number;
+  primary_element: string;
+  product_type: string;
+  is_active: boolean;
+  in_stock: boolean;
 }
 
 const PRODUCTS = [
-  { title: "Fire Element Ring", skuPrefix: "FIRE-RING", productId: "prod_fire", unitPrice: 19900 },
-  { title: "Water Element Pendant", skuPrefix: "WATER-PENDANT", productId: "prod_water", unitPrice: 24900 },
-  { title: "Earth Element Bracelet", skuPrefix: "EARTH-BRACELET", productId: "prod_earth", unitPrice: 17900 },
-  { title: "Air Element Earrings", skuPrefix: "AIR-EARRINGS", productId: "prod_air", unitPrice: 14900 },
-  { title: "Aether Necklace", skuPrefix: "AETHER-NECKLACE", productId: "prod_aether", unitPrice: 29900 },
+  { title: "Fire Element Ring", skuPrefix: "FIRE-RING", productId: "prod_fire", unitPrice: 19900, primaryElement: "FIRE" },
+  { title: "Water Element Pendant", skuPrefix: "WATER-PENDANT", productId: "prod_water", unitPrice: 24900, primaryElement: "WATER" },
+  { title: "Earth Element Bracelet", skuPrefix: "EARTH-BRACELET", productId: "prod_earth", unitPrice: 17900, primaryElement: "EARTH" },
+  { title: "Air Element Earrings", skuPrefix: "AIR-EARRINGS", productId: "prod_air", unitPrice: 14900, primaryElement: "AIR" },
+  { title: "Aether Necklace", skuPrefix: "AETHER-NECKLACE", productId: "prod_aether", unitPrice: 29900, primaryElement: "SPIRIT" },
 ];
 
 const SIZES = ["S", "M", "L"];
@@ -81,6 +85,10 @@ function buildProductSeeds(): ProductSeed[] {
         discount_amount: 0,
         tax_amount: 0,
         line_total: product.unitPrice * quantity,
+        primary_element: product.primaryElement,
+        product_type: "HERO",
+        is_active: true,
+        in_stock: true,
       });
     }
   }

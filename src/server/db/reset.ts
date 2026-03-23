@@ -24,6 +24,7 @@ async function reset() {
     await db.raw("DROP TABLE IF EXISTS carts CASCADE");
 
     // Drop product tables
+    await db.raw("DROP TABLE IF EXISTS element_collections CASCADE");
     await db.raw("DROP TABLE IF EXISTS product_images CASCADE");
     await db.raw("DROP TABLE IF EXISTS products CASCADE");
 
