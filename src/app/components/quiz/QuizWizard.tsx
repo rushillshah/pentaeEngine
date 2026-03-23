@@ -58,7 +58,8 @@ export default function QuizWizard() {
         return;
       }
       setResult(data);
-      setStep(19);
+      // Redirect to the persistent results dashboard
+      window.location.href = `/results/${data.sessionId}`;
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
