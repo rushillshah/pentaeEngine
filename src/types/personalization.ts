@@ -66,3 +66,19 @@ export interface PersonalizationRecommendationItem {
   rank: number;
   reason_code: string | null;
 }
+
+export interface QuizInput {
+  fullName: string;
+  dob: string; // "YYYY-MM-DD"
+  birthHour: number; // 0-23
+  birthMinute: number; // 0-59
+  birthLat: number; // -90 to 90
+  birthLng: number; // -180 to 180
+  mbtiAnswers: number[]; // 8 ints, each 1-5
+}
+
+export interface QuizResult {
+  sessionId: number;
+  elementVector: ElementVector;
+  dominantElement: string;
+}
