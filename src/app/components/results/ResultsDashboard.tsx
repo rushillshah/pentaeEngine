@@ -31,11 +31,11 @@ const ELEMENT_KEYS = ["air", "water", "fire", "earth", "spirit"] as const;
 
 function buildElementEntries(session: ResultsDashboardProps["session"]) {
   const scoreMap: Record<string, number> = {
-    air: session.air_score,
-    water: session.water_score,
-    fire: session.fire_score,
-    earth: session.earth_score,
-    spirit: session.spirit_score,
+    air: Number(session.air_score) || 0,
+    water: Number(session.water_score) || 0,
+    fire: Number(session.fire_score) || 0,
+    earth: Number(session.earth_score) || 0,
+    spirit: Number(session.spirit_score) || 0,
   };
 
   return ELEMENT_KEYS
