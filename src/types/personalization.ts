@@ -77,8 +77,20 @@ export interface QuizInput {
   mbtiAnswers: number[]; // 8 ints, each 1-5
 }
 
+export interface NumerologyDetails {
+  lifePath: number;
+  lifePathMeaning: string;
+  expression: number;
+  expressionMeaning: string;
+  soulUrge: number | null;
+  soulUrgeMeaning: string | null;
+}
+
 export interface QuizResult {
   sessionId: number;
   elementVector: ElementVector;
   dominantElement: string;
+  numerologyDetails: NumerologyDetails;
+  narrativeText: string;
+  narrativeSource: string;
 }

@@ -7,8 +7,14 @@ import {
   MODULE_WEIGHTS,
   FALLBACK_WEIGHTS,
 } from "@/server/engines/combiner";
+import {
+  LIFE_PATH_MEANINGS,
+  EXPRESSION_MEANINGS,
+  SOUL_URGE_MEANINGS,
+} from "@/server/engines/numerology/meanings";
 import type {
   ElementVector,
+  NumerologyDetails,
   PersonalizationSession,
   QuizInput,
   QuizResult,
@@ -36,6 +42,21 @@ function parseDateParts(dob: string): { year: number; month: number; day: number
     year: parseInt(yearStr, 10),
     month: parseInt(monthStr, 10),
     day: parseInt(dayStr, 10),
+  };
+}
+
+function buildNumerologyDetails(
+  lifePath: number,
+  expression: number,
+  soulUrge: number | null,
+): NumerologyDetails {
+  return {
+    lifePath,
+    lifePathMeaning: LIFE_PATH_MEANINGS[lifePath] ?? "",
+    expression,
+    expressionMeaning: EXPRESSION_MEANINGS[expression] ?? "",
+    soulUrge,
+    soulUrgeMeaning: soulUrge !== null ? (SOUL_URGE_MEANINGS[soulUrge] ?? "") : null,
   };
 }
 
@@ -86,7 +107,7 @@ export class PersonalizationService {
         session_id: sessionId,
         module: "NUMEROLOGY",
         input_payload: JSON.stringify({ dob: input.dob, fullName: input.fullName }),
-        output_vector: JSON.stringify(numResult),
+        output_vector: JSON.stringify(numResult.elementVector),
         status: "COMPLETED",
         completed_at: now,
       },
@@ -117,7 +138,7 @@ export class PersonalizationService {
     ]);
 
     const vectors: Record<string, ElementVector> = {
-      numerology: numResult,
+      numerology: numResult.elementVector,
       mbti: mbtiResult,
     };
     let weights: Record<string, number>;
@@ -131,6 +152,11 @@ export class PersonalizationService {
 
     const elementVector = combineVectors(vectors, weights);
     const dominantElement = findDominantElement(elementVector);
+    const numerologyDetails = buildNumerologyDetails(
+      numResult.lifePath,
+      numResult.expression,
+      numResult.soulUrge,
+    );
 
     await db("personalization_sessions").where({ id: sessionId }).update({
       air_score: elementVector.air,
@@ -144,7 +170,14 @@ export class PersonalizationService {
       completed_at: new Date(),
     });
 
-    return { sessionId, elementVector, dominantElement };
+    return {
+      sessionId,
+      elementVector,
+      dominantElement,
+      numerologyDetails,
+      narrativeText: "",
+      narrativeSource: "FALLBACK",
+    };
   }
 
   static async getSession(id: number): Promise<PersonalizationSession | null> {
